@@ -161,6 +161,7 @@
 "You must connect Lookin with target iOS app before using this feature." = "必须和当前查看的 iOS app 实时连接上才可使用该功能";
 "Operation failed. The image property value of selected UIImageView is nil." = "操作失败，当前 UIImageView 的 image 属性似乎为 nil";
 "Export screenshot…" = "导出图像…";
+"Copy as PNG" = "拷贝为 PNG";
 "Inherits from" = "继承自";
 "No Filter Results" = "无搜索结果";
 "CancelSearch" = "取 消";

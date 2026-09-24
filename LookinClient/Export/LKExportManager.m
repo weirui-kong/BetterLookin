@@ -140,4 +140,56 @@
     }];
 }
 
++ (NSInteger)nativeScaleForDisplayItem:(LookinDisplayItem *)displayItem {
+    NSImage *image = displayItem.groupScreenshot;
+    CGFloat pointWidth = displayItem.frame.size.width;
+    if (!image || pointWidth <= 0) {
+        return 0;
+    }
+    CGFloat scale = image.size.width / pointWidth;
+    return MAX((NSInteger)round(scale), 1);
+}
+
++ (NSSize)pixelSizeForDisplayItem:(LookinDisplayItem *)displayItem scale:(NSInteger)scale {
+    return NSMakeSize(displayItem.frame.size.width * scale, displayItem.frame.size.height * scale);
+}
+
++ (void)copyScreenshotAsPNGWithDisplayItem:(LookinDisplayItem *)displayItem scale:(NSInteger)scale {
+    NSImage *sourceImage = displayItem.groupScreenshot;
+    if (!sourceImage) {
+        AlertError(LookinErr_Inner, CurrentKeyWindow);
+        return;
+    }
+
+    NSSize targetSize = [self pixelSizeForDisplayItem:displayItem scale:scale];
+    if (targetSize.width <= 0 || targetSize.height <= 0) {
+        AlertError(LookinErr_Inner, CurrentKeyWindow);
+        return;
+    }
+
+    NSImage *imageToCopy = sourceImage;
+    if (!NSEqualSizes(targetSize, sourceImage.size)) {
+        NSRect targetFrame = NSMakeRect(0, 0, targetSize.width, targetSize.height);
+        NSImageRep *sourceImageRep = [sourceImage bestRepresentationForRect:targetFrame context:nil hints:nil];
+
+        NSImage *resizedImage = [[NSImage alloc] initWithSize:targetSize];
+        [resizedImage lockFocus];
+        [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+        [sourceImageRep drawInRect:targetFrame];
+        [resizedImage unlockFocus];
+        imageToCopy = resizedImage;
+    }
+
+    NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithData:[imageToCopy TIFFRepresentation]];
+    NSData *pngData = [bitmapRep representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
+    if (!pngData) {
+        AlertError(LookinErr_Inner, CurrentKeyWindow);
+        return;
+    }
+
+    NSPasteboard *paste = [NSPasteboard generalPasteboard];
+    [paste clearContents];
+    [paste setData:pngData forType:NSPasteboardTypePNG];
+}
+
 @end

@@ -21,6 +21,8 @@ Shared instructions for any coding agent working in this repository (Claude Code
 
    Do not retrofit this onto existing files — leave their original headers (e.g. `Created by 李凯 on ...`) untouched.
 
+   **Comments:** don't write a comment unless it's necessary; if it is, keep it concise. Never write a comment that describes what the code does — add one only when *not* having it would leave a reader confused or likely to misread the code (a non-obvious *why*: a workaround, a quirk, a subtle constraint). Leave the original repository's existing comments untouched; only touch one if there's a specific need to (e.g. the code it describes changed).
+
 ## Project context
 
 BetterLookin is an independent, long-term continuation of the unmaintained `hughkli/Lookin` (macOS UI inspector) and `QMUI/LookinServer` (iOS-side instrumentation library). See `.private/LICENSE_REVIEW.md` (local-only, not committed) for the licensing audit behind this fork: the macOS client is GPLv3, the iOS-side/shared library is MIT, and they're independent works connected over network/USB rather than one statically-linked binary.

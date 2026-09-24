@@ -440,8 +440,35 @@ extern NSString *const LKAppShowConsoleNotificationName;
             item.action = @selector(_handleExportScreenshot:);
             item.title = NSLocalizedString(@"Export screenshot…", nil);
             item;
-        })];        
+        })];
+
+        [menu addItem:({
+            NSMenuItem *item = [NSMenuItem new];
+            item.title = NSLocalizedString(@"Copy as PNG", nil);
+            item.submenu = [self _copyAsPNGSubmenuWithDisplayItem:displayItem];
+            item;
+        })];
     }
+}
+
+- (NSMenu *)_copyAsPNGSubmenuWithDisplayItem:(LookinDisplayItem *)displayItem {
+    NSInteger nativeScale = [LKExportManager nativeScaleForDisplayItem:displayItem];
+
+    NSMenu *submenu = [NSMenu new];
+    for (NSInteger scale = 1; scale <= 3; scale ++) {
+        [submenu addItem:({
+            NSSize pixelSize = [LKExportManager pixelSizeForDisplayItem:displayItem scale:scale];
+            NSMenuItem *item = [NSMenuItem new];
+            item.title = [NSString stringWithFormat:@"%ldx (%ldx%ld)", (long)scale, (long)round(pixelSize.width), (long)round(pixelSize.height)];
+            item.target = self;
+            item.action = @selector(_handleCopyAsPNG:);
+            item.representedObject = displayItem;
+            item.tag = scale;
+            item.enabled = (scale <= nativeScale);
+            item;
+        })];
+    }
+    return submenu;
 }
 
 #pragma mark - <NSTextFieldDelegate>
@@ -517,6 +544,11 @@ extern NSString *const LKAppShowConsoleNotificationName;
 - (void)_handleExportScreenshot:(NSMenuItem *)menuItem {
     LKHierarchyRowView *view = [menuItem.menu lookin_getBindObjectForKey:kMenuBindKey_RowView];
     [LKExportManager exportScreenshotWithDisplayItem:view.displayItem];
+}
+
+- (void)_handleCopyAsPNG:(NSMenuItem *)menuItem {
+    LookinDisplayItem *item = menuItem.representedObject;
+    [LKExportManager copyScreenshotAsPNGWithDisplayItem:item scale:menuItem.tag];
 }
 
 - (void)_handleCopyDisplayItemName:(NSMenuItem *)menuItem {

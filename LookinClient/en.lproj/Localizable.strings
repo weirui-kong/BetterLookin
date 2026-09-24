@@ -159,6 +159,7 @@
 "You must connect Lookin with target iOS app before using this feature." = "You must connect Lookin with target iOS app before using this feature.";
 "Operation failed. The image property value of selected UIImageView is nil." = "Operation failed. The image property value of selected UIImageView is nil.";
 "Export screenshot…" = "Export screenshot…";
+"Copy as PNG" = "Copy as PNG";
 "Inherits from" = "Inherits from";
 "No Filter Results" = "No Filter Results";
 "CancelSearch" = "Cancel";

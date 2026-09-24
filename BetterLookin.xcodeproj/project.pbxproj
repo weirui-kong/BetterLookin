@@ -1652,7 +1652,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = icu.retrouvailles.betterlookin;
 				PRODUCT_NAME = "Better Lookin";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1693,7 +1693,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = icu.retrouvailles.betterlookin;
 				PRODUCT_NAME = "Better Lookin";
 				PROVISIONING_PROFILE_SPECIFIER = "";

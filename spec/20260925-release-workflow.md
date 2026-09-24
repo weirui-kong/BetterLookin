@@ -55,3 +55,11 @@ Built with `hdiutil` (no extra tooling to install): stage `Better Lookin.app` pl
 - Body: the install-instructions template above, with the actual version/filename substituted in.
 - Asset: the DMG.
 - Created via `gh release create` using the workflow's `GITHUB_TOKEN` (workflow permission `contents: write`).
+
+## Update: ad-hoc build failed to launch (found after first release)
+
+The first DMG built by this workflow installed but would not launch: `dyld[...]: Library not loaded: @rpath/LookinShared.framework/... code signature ... not valid for use in process: mapping process and mapped file (non-platform) have different Team IDs`.
+
+Root cause: `ENABLE_HARDENED_RUNTIME = YES` is set on the app target, and Hardened Runtime enforces Library Validation by default — it rejects loading embedded frameworks whose ad-hoc signature isn't provably from the same source as the main executable's, even when both are ad-hoc (no team). This is independent of the Developer ID/notarization gap already described above; it reproduces with any ad-hoc-signed, hardened-runtime build, including ones made straight from Xcode locally.
+
+Fix: added `com.apple.security.cs.disable-library-validation` to `LookinClient/Lookin.entitlements`, alongside the existing `com.apple.security.cs.debugger` entry. Verified locally — rebuilding with the workflow's exact `CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- DEVELOPMENT_TEAM=` settings and launching the resulting binary now starts up cleanly. No workflow changes were needed; the entitlements file is picked up automatically since `CODE_SIGN_ENTITLEMENTS` already points to it.

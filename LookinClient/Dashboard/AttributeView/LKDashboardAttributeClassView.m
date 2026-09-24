@@ -7,7 +7,7 @@
 //
 
 #import "LKDashboardAttributeClassView.h"
-#import "Lookin-Swift.h"
+#import "Better_Lookin-Swift.h"
 
 @implementation LKDashboardAttributeClassView
 

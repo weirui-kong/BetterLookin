@@ -1,0 +1,12 @@
+Pods/
+Build/
+DerivedData/
+BetterLookin.xcodeproj/xcuserdata/
+BetterLookin.xcworkspace/xcuserdata/
+*.xcuserstate
+.DS_Store
+Gemfile
+Gemfile.lock
+
+# Local-only notes, not for the public repo
+.private/

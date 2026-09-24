@@ -2,8 +2,8 @@ use_frameworks!
 
 #inhibit_all_warnings!
 
-target 'LookinClient' do 
-    platform :osx, '11.0'
+target 'BetterLookin' do
+    platform :osx, '14.0'
     pod 'AppCenter'
     pod 'ReactiveObjC', '3.1.0'
     pod 'Sparkle', '~> 1.0'
